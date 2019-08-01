@@ -99,13 +99,13 @@ This package contains a rich set of examples to get quickly started with the Cra
 
 For controlling each motor with a pwm value (0 to 65536):
 ```
-roslaunch crazyflie_demo crazyhexa_pwm m1:=3000 m2:=3000 m3:=3000 m4:=3000 m5:=3000 m6:=3000
+roslaunch crazyflie_demo crazyhexa_pwm.launch m1:=3000 m2:=3000 m3:=3000 m4:=3000 m5:=3000 m6:=3000
 ```
 where you can change the value of each motor (m1 to m6).
 
 This is also possible on a quadrotor crazyflie :
 ```
-roslaunch crazyflie_demo crazyhexa_pwm m1:=3000 m2:=3000 m3:=3000 m4:=3000
+roslaunch crazyflie_demo crazy_pwm.launch m1:=3000 m2:=3000 m3:=3000 m4:=3000
 ```
 
 ## ROS Features
