@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="uri" default="radio://0/80/2M" />
+  <arg name="m1" default="0" />
+  <arg name="m2" default="0" />
+  <arg name="m3" default="0" />
+  <arg name="m4" default="0" />
+  <arg name="m5" default="0" />
+  <arg name="m6" default="0" />
+
+  <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
+  </include>
+
+  <group ns="crazyflie">
+    <!--<param name="crazyflie/pid_rate/yaw_kp" value="200"/>-->
+    <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
+      <arg name="uri" value="$(arg uri)" />
+      <arg name="tf_prefix" value="crazyflie" />
+      <arg name="enable_logging" value="False" />
+    </include>
+
+    <node name="crazyflie_demo_hover" pkg="crazyflie_demo" type="crazyhexa_pwm.py" output="screen">
+      <param name="pwm1" value="$(arg m1)" />
+      <param name="pwm2" value="$(arg m2)" />
+      <param name="pwm3" value="$(arg m3)" />
+      <param name="pwm4" value="$(arg m4)" />
+      <param name="pwm5" value="$(arg m5)" />
+      <param name="pwm6" value="$(arg m6)" />
+    </node>
+  </group>
+
+</launch>
