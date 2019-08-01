@@ -55,10 +55,8 @@ For any other mentioning please include my affiliation (ACTLab at University of 
 
 Clone the package into your catkin workspace:
 ```
-git clone https://github.com/whoenig/crazyflie_ros.git
-cd crazyflie_ros
-git submodule init
-git submodule update
+git clone https://github.com/lucasromary/crazyflie_ros_hexa.git
+
 ```
 
 Use `catkin_make` on your workspace to compile.
@@ -99,26 +97,16 @@ It can be used with external motion capture systems, such as VICON.
 
 This package contains a rich set of examples to get quickly started with the Crazyflie.
 
-For teleoperation using a joystick, use:
+For controlling each motor with a pwm value (0 to 65536):
 ```
-roslaunch crazyflie_demo teleop_xbox360.launch uri:=radio://0/100/2M
+roslaunch crazyflie_demo crazyhexa_pwm m1:=3000 m2:=3000 m3:=3000 m4:=3000 m5:=3000 m6:=3000
 ```
-where the uri specifies the uri of your Crazyflie. You can find valid uris using the scan command in the crazyflie_tools package.
+where you can change the value of each motor (m1 to m6).
 
-For hovering at (0,0,1) using VICON, use:
+This is also possible on a quadrotor crazyflie :
 ```
-roslaunch crazyflie_demo hover_vicon.launch uri:=radio://0/100/2M frame:=/vicon/crazyflie/crazyflie x:=0 y:=0 z:=1
+roslaunch crazyflie_demo crazyhexa_pwm m1:=3000 m2:=3000 m3:=3000 m4:=3000
 ```
-where the uri specifies the uri of your Crazyflie and frame the tf-frame. The launch file runs vicon_bridge automatically.
-
-For multiple Crazyflies make sure that all Crazyflies have a different address.
-Crazyflies which share a dongle should use the same channel and datarate for best performance.
-The performance degrades with the number of Crazyflies per dongle due to bandwidth limitations, however it was tested successfully to use 3 CFs per Crazyradio.
-```
-roslaunch crazyflie_demo multi_teleop_xbox360.launch uri1:=radio://0/100/2M/E7E7E7E7E7 uri2:=radio://0/100/2M/E7E7E7E705
-```
-
-Please check the launch files in the crazyflie_demo package for other examples, including simple waypoint navigation.
 
 ## ROS Features
 
@@ -170,26 +158,3 @@ Similar to the hector_quadrotor, package the fields are used as following:
 * Float32
 * Volts
 * update: 100ms (time between crazyflie and ROS not synchronized!)
-
-## Similar Projects
-
-* https://github.com/gtagency/crazyflie-ros
-  * no documentation
-  * no teleop
-* https://github.com/omwdunkley/crazyflieROS
-  * coupled with GUI
-  * based on custom firmware
-* https://github.com/mbeards/crazyflie-ros
-  * incomplete
-* https://github.com/utexas-air-fri/crazyflie_fly
-  * not based on official SDK
-  * no support for logging
-* https://github.com/mchenryc/crazyflie
-  * no documentation
-
-## Notes
-
-* The dynamic_reconfigure package (http://wiki.ros.org/dynamic_reconfigure/) seems like a good fit to map the parameters, however it has severe limitations:
-  * Changed-Callback does not include which parameter(s) were changed. There is only a notion of a level which is a simple bitmask. This would cause that on any parameter change we would need to update all parameters on the Crazyflie.
-  * Parameters are statically generated. There are hacks to add parameters at runtime, however those might not work with future versions of dynamic_reconfigure.
-  * Groups not fully supported (https://github.com/ros-visualization/rqt_common_plugins/issues/162; This seems to be closed now, however the Indigo binary packages did not pick up the fixes yet).
